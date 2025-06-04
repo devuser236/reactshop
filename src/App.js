@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import { Button, Navbar, Container, Nav, NavDropdown, Row, Col } from 'react-bootstrap';
+// import { BrowserView, MobileView, isBrowser, isMobile, isSafari, isChrome } from "react-device-detect";
 import data from './data.js';
 import { useState } from 'react';
 
@@ -36,7 +37,8 @@ function App() {
             </Navbar.Collapse>
           </Container>
         </Navbar>
-        <div className="main-bg"></div>
+        <div className='main-bg'>
+        </div>
         <div>
           <br />
           <br />
@@ -51,7 +53,7 @@ function App() {
                 {
                   goods.map(function(a, i){
                     return(
-                      <GoodsList key={goods[i].id} goods={goods[i]} id={goods[i].id}/>
+                      <GoodsList key={goods[i].id} goods={goods[i]} id={goods[i].id} />
                     );
                   })
                 }       
@@ -67,8 +69,12 @@ function GoodsList(props){
       <img src={process.env.PUBLIC_URL + '/images/goods'+props.id+'.png'} alt='goods' height='300px'/>
       <p/>
       <h4 style={{fontSize:'18px'}}><strong>{props.goods.title}</strong></h4>
+      {props.goods.content}<br/>
+      ₩{props.goods.price}
       <br/>
-      {props.goods.content}
+      <Button variant="secondary" style={{fontSize:'12px'}}>제품 상세보기</Button>
+      <br/>
+      <br/>
     </Col>
   );
 }
