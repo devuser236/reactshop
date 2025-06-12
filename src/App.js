@@ -7,17 +7,16 @@ import data from './data.js';
 import { useState } from 'react';
 import Detail from './routes/Detail.js';
 
-
 function App() {
    const [goods] = useState(data);
-   let [title, setTitle] = useState('aa');
-   const changeTitle = (value)=>{
-    setTitle(value)
+    let [id, setId] = useState('');
+   const goodsDetail = (value)=>{
+    setId(value);
    }
-  //  console.log(data);
    return (
     <div className="App">
       <Routes>
+        {/* 메인페이지 */}
         <Route path='/'element={
           <div>
             <Navbar expand="lg" className="bg-body-tertiary">
@@ -57,7 +56,7 @@ function App() {
                   {
                     goods.map(function(a, i){
                       return(
-                        <GoodsList key={goods[i].id} goods={goods[i]} id={goods[i].id} goodsTitle={goods[i].title}  changeTitle={changeTitle}/>
+                        <GoodsList key={goods[i].id} goods={goods[i]} id={goods[i].id} goodsTitle={goods[i].title}  goodsDetail={goodsDetail}/>
                       );
                     })
                     }       
@@ -66,11 +65,13 @@ function App() {
             </div>
         </div>}>
         </Route>
-        <Route path='/detail' element={<Detail title={title}/>}/>
+        {/* 제품상세보기 페이지 */}
+        <Route path='/detail' element={<Detail id={id} title={goods[id].title} price={goods[id].price}/>}/>
       </Routes>
     </div>
   );
 }
+// 메인페이지 제품 리스트 함수
 function GoodsList(props){
   return(
     <>
@@ -82,8 +83,8 @@ function GoodsList(props){
         ₩{props.goods.price}        
         <br/>
           <Link to={'/detail'}><button variant="secondary" style={{fontSize:'12px'} } onClick={()=>{
-            let copyTitle=props.goodsTitle
-            props.changeTitle(copyTitle);
+            let copyId=props.id
+            props.goodsDetail(copyId);
           }}>제품상세보기</button></Link>
         <br/>
         <br/>
