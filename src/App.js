@@ -2,50 +2,34 @@ import logo from './logo.svg';
 import './App.css';
 import { Button, Navbar, Container, Nav, NavDropdown, Row, Col } from 'react-bootstrap';
 // import { BrowserView, MobileView, isBrowser, isMobile, isSafari, isChrome } from "react-device-detect";
-import {  Route, Routes, Link, href} from 'react-router-dom';
+import {  Route, Routes, Link, Navigate, Outlet, useNavigate} from 'react-router-dom';
 import data from './data.js';
 import { useState } from 'react';
+import Header from './Header.js';
 import Detail from './routes/Detail.js';
+import Kidsfurniture from './routes/Kidsfurniture.js';
+import Baby from './routes/Baby.js';
+
 
 function App() {
-   const [goods] = useState(data);
-    let [id, setId] = useState('');
-   const goodsDetail = (value)=>{
+  const [goods] = useState(data);
+  let navigate = useNavigate();
+  let [id, setId] = useState('0');
+
+  // 사용안하는 함수
+  // 컴포넌트 안에서 실행해서 props로 id를 다른 페이지에 전달하기 위함 url 파라미터로 대체
+  const goodsDetail = (value)=>{
     setId(value);
-   }
+  }
+
    return (
     <div className="App">
       <Routes>
         {/* 메인페이지 */}
         <Route path='/'element={
           <div>
-            <Navbar expand="lg" className="bg-body-tertiary">
-              <Container>
-                <Navbar.Brand href="#home">
-                  <h4><strong>React-Shop</strong></h4>
-                </Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                  <Nav className="me-auto">
-                    <Nav.Link href="#home">주문폭주⭐</Nav.Link>
-                    <Nav.Link href="#link">6월 추천 아이템😎</Nav.Link>
-                    <NavDropdown title="유아가구🛋️" id="basic-nav-dropdown">
-                      <NavDropdown.Item href="#action/3.1">테이블&체어</NavDropdown.Item>
-                      <NavDropdown.Item href="#action/3.2">책장&정리함</NavDropdown.Item>
-                      <NavDropdown.Item href="#action/3.3">침대</NavDropdown.Item>
-                    </NavDropdown>
-                    <NavDropdown title="베이비👶🏻" id="basic-nav-dropdown">
-                      <NavDropdown.Item href="#action/3.1">베이비룸</NavDropdown.Item>
-                      <NavDropdown.Item href="#action/3.2">아기체어</NavDropdown.Item>
-                      <NavDropdown.Item href="#action/3.3">턱받이</NavDropdown.Item>
-                      <NavDropdown.Item href="#action/3.3">유아용품</NavDropdown.Item>
-                    </NavDropdown>
-                  </Nav>
-                </Navbar.Collapse>
-              </Container>
-            </Navbar>
-            <div className='main-bg'>
-            </div>
+            <Header/>
+            <div className='main-bg'/>
             <div>
               <br /><br /><br />
               <h4 style={{textAlign : 'center', fontSize : '28px'}}><strong>베스트 상품🏆</strong></h4><br />
@@ -56,7 +40,7 @@ function App() {
                   {
                     goods.map(function(a, i){
                       return(
-                        <GoodsList key={goods[i].id} goods={goods[i]} id={goods[i].id} goodsTitle={goods[i].title}  goodsDetail={goodsDetail}/>
+                        <GoodsList key={goods[i].id} goods={goods[i]} id={goods[i].id} goodsTitle={goods[i].title} navigate={navigate}/>
                       );
                     })
                     }       
@@ -66,7 +50,20 @@ function App() {
         </div>}>
         </Route>
         {/* 제품상세보기 페이지 */}
-        <Route path='/detail' element={<Detail id={id} title={goods[id].title} price={goods[id].price}/>}/>
+        <Route path='/detail/:id' element={<Detail goods={goods} navigate={navigate}/>}/>
+        {/* 유아가구 페이지 */}
+        <Route path='/kidsfurniture' element={<Kidsfurniture navigate={navigate} />}>
+                    <Route path='table' element={<div>Kid's 테이블 & 체어</div>}/>
+                    <Route path='bookcase' element={<div>Kid's 책장 & 정리함</div>}/>
+                    <Route path='bed' element={<div>Kid's 침대</div>}/>
+        </Route>
+        {/* 베이비 페이지 */}
+        <Route path='/baby' element={<Baby navigate={navigate} />}>
+                    <Route path='room' element={<div> 베이비룸 </div>}/>
+                    <Route path='chair' element={<div> 아기체어 </div>}/>
+                    <Route path='bib' element={<div> 턱받이 </div>}/>
+                    <Route path='products' element={<div> 유아용품 </div>}/>
+        </Route>
       </Routes>
     </div>
   );
@@ -76,16 +73,17 @@ function GoodsList(props){
   return(
     <>
       <Col xs>
-        <img src={process.env.PUBLIC_URL + '/images/goods'+props.id+'.png'} alt='goods' height='300px'/>
+        <img src={process.env.PUBLIC_URL + '/images/goods'+props.id+'.png'} alt='goods' height='300px' onClick={()=> {
+          props.navigate('/detail/'+ props.id) 
+        }}/>
         <p/>
-        <h4 style={{fontSize:'18px'}}><strong>{props.goods.title}</strong></h4>
-        {props.goods.content}<br/>
-        ₩{props.goods.price}        
+        <h4 style={{fontSize:'18px'}} onClick={()=>{ props.navigate('/detail/'+ props.id) }}><strong>{props.goods.title}</strong></h4>
+        <p onClick={()=>{ props.navigate('/detail/'+ props.id) }}>{props.goods.content}</p>
+        <p onClick={()=>{ props.navigate('/detail/'+ props.id) }}>{props.goods.price}원</p>       
         <br/>
-          <Link to={'/detail'}><button variant="secondary" style={{fontSize:'12px'} } onClick={()=>{
-            let copyId=props.id
-            props.goodsDetail(copyId);
-          }}>제품상세보기</button></Link>
+        <button variant="secondary" style={{fontSize:'12px'} } onClick={()=>{
+          props.navigate('/detail/'+ props.id) 
+        }}>제품상세보기</button>
         <br/>
         <br/>
       </Col>
