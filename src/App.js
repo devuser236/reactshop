@@ -9,6 +9,7 @@ import Header from './Header.js';
 import Detail from './routes/Detail.js';
 import Kidsfurniture from './routes/Kidsfurniture.js';
 import Baby from './routes/Baby.js';
+import Payment from './routes/Payment.js';
 
 
 function App() {
@@ -64,6 +65,7 @@ function App() {
                     <Route path='bib' element={<div> 턱받이 </div>}/>
                     <Route path='products' element={<div> 유아용품 </div>}/>
         </Route>
+        <Route path='/pay/:id' element={<Payment navigate={navigate} goods={goods}></Payment>}></Route>
       </Routes>
     </div>
   );
@@ -72,14 +74,14 @@ function App() {
 function GoodsList(props){
   return(
     <>
-      <Col xs>
-        <img src={process.env.PUBLIC_URL + '/images/goods'+props.id+'.png'} alt='goods' height='300px' onClick={()=> {
+      <Col xs >
+        <img src={process.env.PUBLIC_URL + '/images/goods'+props.id+'.png'} alt='goods' height='300px'className='hand-cursor' onClick={()=> {
           props.navigate('/detail/'+ props.id) 
         }}/>
         <p/>
-        <h4 style={{fontSize:'18px'}} onClick={()=>{ props.navigate('/detail/'+ props.id) }}><strong>{props.goods.title}</strong></h4>
-        <p onClick={()=>{ props.navigate('/detail/'+ props.id) }}>{props.goods.content}</p>
-        <p onClick={()=>{ props.navigate('/detail/'+ props.id) }}>{props.goods.price}원</p>       
+        <h4 style={{fontSize:'18px'}} className='hand-cursor' onClick={()=>{ props.navigate('/detail/'+ props.id) }}><strong>{props.goods.title}</strong></h4>
+        <p className='hand-cursor' onClick={()=>{ props.navigate('/detail/'+ props.id) }}>{props.goods.content}</p>
+        <p className='hand-cursor' onClick={()=>{ props.navigate('/detail/'+ props.id) }}>{props.goods.price}원</p>       
         <br/>
         <button variant="secondary" style={{fontSize:'12px'} } onClick={()=>{
           props.navigate('/detail/'+ props.id) 
