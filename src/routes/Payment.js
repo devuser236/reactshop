@@ -15,7 +15,7 @@ function Payment(props){
       <h4>&lt; {findGoods.title} &gt;의 결제 페이지</h4>
       <img src={process.env.PUBLIC_URL + '/images/goods'+id+'.png'} alt='goods' height='300px'/>
       <p>{findGoods.content}</p>
-      <p>{findGoods.price}원</p>
+      <p>{findGoods.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</p>
       <Button variant="secondary" style={{fontSize:'12px'} } onClick={()=>{ props.navigate(-1); }}>뒤로가기</Button>
     </div>
     
