@@ -14,16 +14,22 @@ function Detail(props){
     <div>
       <Header/>
       <p></p>
-      <h4>&lt; {findGoods.title} &gt;의 상세 페이지</h4>
-      <img src={process.env.PUBLIC_URL + '/images/goods'+id+'.png'} alt='goods' height='300px'/>
-      <p>{findGoods.content}</p>
+      <div style={{display:'flex', justifyContent:'center'}}>
+        <div>
+           <img src={process.env.PUBLIC_URL + '/images/goods'+id+'.png'} alt='이미지 설명' height='300px' />
+        </div>
+        <div style={{textAlign:'left', marginLeft:'10px', width:'300px'}}>
+          <h4>{findGoods.title}</h4>
+          <p>{findGoods.content}</p>
+        </div>
+        
+      </div>
       <p>{findGoods.price}원</p>
-      <button variant="secondary" style={{fontSize:'12px'} } onClick={()=>{ props.navigate(-1); }}>장바구니</button>
-      <button variant="secondary" style={{fontSize:'12px'} } onClick={()=>{
+      <Button variant="secondary" style={{fontSize:'12px', marginRight: '10px'} } onClick={()=>{ props.navigate(-1); }}>장바구니</Button>
+      <Button variant="success" style={{fontSize:'12px'} } onClick={()=>{
           props.navigate('/pay/'+ findGoods.id) 
-        }}>구매하기</button>
+        }}>구매하기</Button>
     </div>
-    
   )
 }
 

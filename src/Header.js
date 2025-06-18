@@ -24,7 +24,7 @@ function Header(){
                   <NavDropdown.Item href="/baby/bib">턱받이</NavDropdown.Item>
                   <NavDropdown.Item href="/baby/products">유아용품</NavDropdown.Item>
                 </NavDropdown>
-                <Nav.Link href="#member">회원정보</Nav.Link>
+                <Nav.Link href="#member">로그인</Nav.Link>
               </Nav>
             </Navbar.Collapse>
         </Container>

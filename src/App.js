@@ -65,6 +65,7 @@ function App() {
                     <Route path='bib' element={<div> 턱받이 </div>}/>
                     <Route path='products' element={<div> 유아용품 </div>}/>
         </Route>
+        {/* 상품 결제페이지 */}
         <Route path='/pay/:id' element={<Payment navigate={navigate} goods={goods}></Payment>}></Route>
       </Routes>
     </div>
@@ -83,9 +84,9 @@ function GoodsList(props){
         <p className='hand-cursor' onClick={()=>{ props.navigate('/detail/'+ props.id) }}>{props.goods.content}</p>
         <p className='hand-cursor' onClick={()=>{ props.navigate('/detail/'+ props.id) }}>{props.goods.price}원</p>       
         <br/>
-        <button variant="secondary" style={{fontSize:'12px'} } onClick={()=>{
+        <Button variant="secondary" style={{fontSize:'12px', height:'40px'} } onClick={()=>{
           props.navigate('/detail/'+ props.id) 
-        }}>제품상세보기</button>
+        }}>제품상세보기</Button>
         <br/>
         <br/>
       </Col>

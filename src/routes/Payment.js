@@ -16,7 +16,7 @@ function Payment(props){
       <img src={process.env.PUBLIC_URL + '/images/goods'+id+'.png'} alt='goods' height='300px'/>
       <p>{findGoods.content}</p>
       <p>{findGoods.price}원</p>
-      <button variant="secondary" style={{fontSize:'12px'} } onClick={()=>{ props.navigate(-1); }}>뒤로가기</button>
+      <Button variant="secondary" style={{fontSize:'12px'} } onClick={()=>{ props.navigate(-1); }}>뒤로가기</Button>
     </div>
     
   )
