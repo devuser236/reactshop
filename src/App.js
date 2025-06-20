@@ -16,10 +16,12 @@ import Detail from './routes/Detail.js';
 import Kidsfurniture from './routes/Kidsfurniture.js';
 import Baby from './routes/Baby.js';
 import Payment from './routes/Payment.js';
+import axios from 'axios';
 
 
 function App() {
-  const [goods] = useState(data);
+  const [goods, setGoods] = useState(data);
+  const [more, setMore] = useState(false);
   let navigate = useNavigate();
   // 사용안하는 함수
   // 컴포넌트 안에서 실행해서 props로 id를 다른 페이지에 전달하기 위함 url 파라미터로 대체
@@ -74,6 +76,24 @@ function App() {
         {/* 상품 결제페이지 */}
         <Route path='/pay/:id' element={<Payment navigate={navigate} goods={goods}></Payment>}></Route>
       </Routes>
+      {
+        more == false ?
+          <Button variant="secondary" onClick={() => {
+            axios.get('https://codingapple1.github.io/shop/data2.json')
+              .then((result) => {
+                let newArr = [...goods, ...result.data]
+                console.log(newArr)
+                setGoods(newArr);
+                setMore(true);
+              })
+              .catch(() => {
+                //예외처리
+                console.log('실패')
+              })
+
+          }}> 상품 더보기</Button> : null
+      }
+
     </div>
   );
 }
