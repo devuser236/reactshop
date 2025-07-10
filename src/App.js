@@ -21,8 +21,8 @@ import axios from 'axios';
 
 function App() {
   const [goods, setGoods] = useState(data);
-  const [more, setMore] = useState(false);
-  let navigate = useNavigate();
+  const [more, setMore] = useState(2);
+  let navigate = useNavigate(0);
   // 사용안하는 함수
   // 컴포넌트 안에서 실행해서 props로 id를 다른 페이지에 전달하기 위함 url 파라미터로 대체
   let [id, setId] = useState('0');
@@ -56,6 +56,22 @@ function App() {
                 </Row>
               </Container>
             </div>
+            {
+              more <= 3 ?
+                <Button variant="success" onClick={() => {
+                  axios.get('https://codingapple1.github.io/shop/data' + more + '.json')
+                    .then((result) => {
+                      let newArr = [...goods, ...result.data]
+                      console.log(newArr)
+                      setGoods(newArr);
+                      setMore(more+1);
+                    })
+                    .catch(() => {
+                      //예외처리
+                      console.log('실패')
+                    })
+                }}> 상품 더보기</Button> : <p>더 이상 상품이 존재하지 않습니다.</p>
+            }
           </div>}>
         </Route>
         {/* 제품상세보기 페이지 */}
@@ -76,28 +92,11 @@ function App() {
         {/* 상품 결제페이지 */}
         <Route path='/pay/:id' element={<Payment navigate={navigate} goods={goods}></Payment>}></Route>
       </Routes>
-      {
-        more == false ?
-          <Button variant="secondary" onClick={() => {
-            axios.get('https://codingapple1.github.io/shop/data2.json')
-              .then((result) => {
-                let newArr = [...goods, ...result.data]
-                console.log(newArr)
-                setGoods(newArr);
-                setMore(true);
-              })
-              .catch(() => {
-                //예외처리
-                console.log('실패')
-              })
-
-          }}> 상품 더보기</Button> : null
-      }
 
     </div>
   );
 }
-// 메인페이지 제품 리스트 함수
+// 메인페이지 제품 리스트 컴포넌트
 function GoodsList(props) {
   return (
     <>
