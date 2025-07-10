@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Header from '../Header';
-import { Button, Navbar, Container, Nav, NavDropdown, Row, Col } from 'react-bootstrap';
+import { Button, Navbar, Container, Nav, NavDropdown, Row, Col, Alert } from 'react-bootstrap';
 import { Route, Routes, Link, Navigate, Outlet, useNavigate, useParams } from 'react-router-dom';
 import Payment from './Payment';
 import styled from 'styled-components';
@@ -8,16 +8,16 @@ import styled from 'styled-components';
 function Detail(props) {
   let [count, setCount] = useState(0);
   let [inpudate, setInputDate] = useState(0);
-  let [alert, setAlert] = useState(true);
+  let [alert1, setAlert1] = useState(true);
   useEffect(() => {
     if (isNaN((inpudate)) == true) {
-      setAlert(false);
+      setAlert1(false);
     }
     return () => {
       //cleanup function (기존데이터요청은 제거)
       //useEffect 가 실행되기 전에 실행됨
       //최초 마운트 될때는 실행안되고 언마운트될때는 실행됨
-      setAlert(true);
+      setAlert1(true);
     }
   }, [inpudate]);
   //[](Dependency)에 변수를 추가하여 해당 변수의 업데이트때만 실행 [count] 면 count가 업뎃되면 실행
@@ -49,7 +49,7 @@ function Detail(props) {
       </div>
       <p>{findGoods.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</p>
       {
-        alert == false ? <p>수량은 숫자만 입력 가능합니다.</p> : null
+        alert1 == false ? <p>수량은 숫자만 입력 가능합니다.</p> : null
       }
       <span style={{ paddingRight: '10px' }}>수량
         <input onChange={(e) => { setInputDate(e.target.value) }}></input>
@@ -57,7 +57,14 @@ function Detail(props) {
       <br /><br />
       <Button variant="secondary" style={{ fontSize: '12px', marginRight: '10px' }} onClick={() => { props.navigate(-1); }}>장바구니</Button>
       <Button variant="success" style={{ fontSize: '12px' }} onClick={() => {
-        props.navigate('/pay/' + findGoods.id)
+          if (inpudate == 0){
+            alert('구매 수량을 입력해주세요');
+          } else if (alert1==false){
+            alert('수량은 숫자만 입력 가능합니다.');
+          } else {
+            props.navigate('/pay/' + findGoods.id)
+          }
+          // inpudate ? props.navigate('/pay/' + findGoods.id) : alert('구매 수량을 입력해주세요')
       }}>구매하기</Button>
     </div>
   )
