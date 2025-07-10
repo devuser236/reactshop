@@ -22,7 +22,7 @@ import axios from 'axios';
 function App() {
   const [goods, setGoods] = useState(data);
   const [more, setMore] = useState(2);
-  let navigate = useNavigate(0);
+  let navigate = useNavigate();
   // 사용안하는 함수
   // 컴포넌트 안에서 실행해서 props로 id를 다른 페이지에 전달하기 위함 url 파라미터로 대체
   let [id, setId] = useState('0');
