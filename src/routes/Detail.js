@@ -51,7 +51,7 @@ function Detail(props) {
       {
         alert1 == false ? <p>수량은 숫자만 입력 가능합니다.</p> : null
       }
-      <span style={{ paddingRight: '10px' }}>수량
+      <span style={{ paddingRight: '10px' }}><t>수량 : </t>
         <input onChange={(e) => { setInputDate(e.target.value) }}></input>
       </span>
       <br /><br />
