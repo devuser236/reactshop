@@ -10,6 +10,7 @@ function Detail(props) {
   let [inputdata, setInputData] = useState(0);
   let [tab, setTab] = useState(0);
   let [alert1, setAlert1] = useState(true);
+  let [alert2, setAlert2] = useState(true);
   useEffect(() => {
     if (isNaN((inputdata)) === true) {
       setAlert1(false);
@@ -19,6 +20,14 @@ function Detail(props) {
       //useEffect 가 실행되기 전에 실행됨
       //최초 마운트 될때는 실행안되고 언마운트될때는 실행됨
       setAlert1(true);
+    }
+  }, [inputdata]);
+  useEffect(() => {
+    if ((inputdata) > 100) {
+      setAlert2(false);
+    }
+    return () => {
+      setAlert2(true);
     }
   }, [inputdata]);
   //[](Dependency)에 변수를 추가하여 해당 변수의 업데이트때만 실행 [count] 면 count가 업뎃되면 실행
@@ -52,11 +61,12 @@ function Detail(props) {
 
       </div>
       <p>{findGoods.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</p>
-      {
-alert1 === false ? <p>수량은 숫자만 입력 가능합니다.</p> : null
-      }
+      <>
+        {alert1 === false ? <p>수량은 숫자만 입력 가능합니다.</p> : null}
+        {alert2 === false ? <p>수량은 100개 까지만 입력 가능합니다.</p> : null}
+      </>
       <span style={{ paddingRight: '10px' }}><t>수량 : </t>
-        <input onChange={(e) => { setInputData(e.target.value) }}></input>
+        <input onChange={(e) => { setInputData(e.target.value) }} ></input>
       </span>
       <br /><br />
       <Button variant="secondary" style={{ fontSize: '12px', marginRight: '10px' }} onClick={() => { props.navigate(-1); }}>장바구니</Button>
@@ -65,6 +75,8 @@ alert1 === false ? <p>수량은 숫자만 입력 가능합니다.</p> : null
           alert('구매 수량을 입력해주세요');
         } else if (alert1 === false) {
           alert('수량은 숫자만 입력 가능합니다.');
+        } else if (alert2 === false) {
+          alert('수량은 100개 까지만 입력 가능합니다.');    
         } else {
           props.navigate('/pay/' + findGoods.id, { state: { quantity: inputdata } })
         }
