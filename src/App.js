@@ -1,8 +1,6 @@
-import logo from './logo.svg';
 import './App.css';
-import { Button, Navbar, Container, Nav, NavDropdown, Row, Col } from 'react-bootstrap';
-// import { BrowserView, MobileView, isBrowser, isMobile, isSafari, isChrome } from "react-device-detect";
-import { Route, Routes, Link, Navigate, Outlet, useNavigate } from 'react-router-dom';
+import { Button, Container, Row, Col } from 'react-bootstrap';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import "swiper/css";
@@ -16,6 +14,8 @@ import Detail from './routes/Detail.js';
 import Kidsfurniture from './routes/Kidsfurniture.js';
 import Baby from './routes/Baby.js';
 import Payment from './routes/Payment.js';
+import Login from './routes/Login.js';
+import Register from './routes/Register.js';
 import axios from 'axios';
 
 
@@ -23,12 +23,6 @@ function App() {
   const [goods, setGoods] = useState(data);
   const [more, setMore] = useState(2);
   let navigate = useNavigate();
-  // 사용안하는 함수
-  // 컴포넌트 안에서 실행해서 props로 id를 다른 페이지에 전달하기 위함 url 파라미터로 대체
-  let [id, setId] = useState('0');
-  const goodsDetail = (value) => {
-    setId(value);
-  };
 
   return (
     <div className="App">
@@ -36,7 +30,7 @@ function App() {
         {/* 메인페이지 */}
         <Route path='/' element={
           <div>
-            <Header />
+            <Header navigate={navigate} />
             <div >
               <MainSlide />
             </div>
@@ -62,7 +56,6 @@ function App() {
                   axios.get('https://codingapple1.github.io/shop/data' + more + '.json')
                     .then((result) => {
                       let newArr = [...goods, ...result.data]
-                      console.log(newArr)
                       setGoods(newArr);
                       setMore(more+1);
                     })
@@ -91,6 +84,8 @@ function App() {
         </Route>
         {/* 상품 결제페이지 */}
         <Route path='/pay/:id' element={<Payment navigate={navigate} goods={goods}></Payment>}></Route>
+        <Route path='/login' element={<Login navigate={navigate} />} />
+        <Route path='/register' element={<Register navigate={navigate} />} />
       </Routes>
 
     </div>
@@ -98,9 +93,10 @@ function App() {
 }
 // 메인페이지 제품 리스트 컴포넌트
 function GoodsList(props) {
+  console.log("Goods ID:", props.id); // Add this line
   return (
     <>
-      <Col xs >
+      <Col md={4}>
         <img src={process.env.PUBLIC_URL + '/images/goods' + props.id + '.png'} alt='goods' height='300px' className='hand-cursor' onClick={() => {
           props.navigate('/detail/' + props.id)
         }} />
@@ -132,16 +128,16 @@ const MainSlide = () => {
           disableOnInteraction: false, // 사용자가 슬라이드를 건드린 후에도 자동 재생 계속
         }}>
         <SwiperSlide>
-          <img src={process.env.PUBLIC_URL + '/images/main_bg0.jpg'} />
+          <img src={process.env.PUBLIC_URL + '/images/main_bg0.jpg'} alt="Main background 0" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src={process.env.PUBLIC_URL + '/images/main_bg1.jpg'} />
+          <img src={process.env.PUBLIC_URL + '/images/main_bg1.jpg'} alt="Main background 1" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src={process.env.PUBLIC_URL + '/images/main_bg2.jpg'} />
+          <img src={process.env.PUBLIC_URL + '/images/main_bg2.jpg'} alt="Main background 2" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src={process.env.PUBLIC_URL + '/images/main_bg3.jpg'} />
+          <img src={process.env.PUBLIC_URL + '/images/main_bg3.jpg'} alt="Main background 3" />
         </SwiperSlide>
       </Swiper>
     </div>
