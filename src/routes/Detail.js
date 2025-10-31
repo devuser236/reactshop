@@ -6,8 +6,8 @@ import { useParams } from 'react-router-dom';
 
 
 function Detail(props) {
-  
-  let [inputdata, setInputData] = useState(0);
+
+  let [inputdata, setInputData] = useState(1);
   let [tab, setTab] = useState(0);
   let [alert1, setAlert1] = useState(true);
   let [alert2, setAlert2] = useState(true);
@@ -46,6 +46,7 @@ function Detail(props) {
   });
   console.log("Detail Page - props.goods:", props.goods);
   console.log("Detail Page - findGoods:", findGoods);
+  console.log({ inputdata });
   return (
     <div>
       <Header navigate={props.navigate} />
@@ -62,21 +63,22 @@ function Detail(props) {
       </div>
       <p>{findGoods.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</p>
       <>
-        {alert1 === false ? <p>수량은 숫자만 입력 가능합니다.</p> : null}
-        {alert2 === false ? <p>수량은 100개 까지만 입력 가능합니다.</p> : null}
+        {alert1 === false ? <p>구매수량은 숫자만 입력 가능합니다.</p> : null}
+        {alert2 === false ? <p>100개 이하로 구매하실 수 있습니다.</p> : null}
       </>
-      <span style={{ paddingRight: '10px' }}><t>수량 : </t>
-        <input onChange={(e) => { setInputData(e.target.value) }} ></input>
+      <span style={{ paddingRight: '10px' }}><t>구매수량 : </t>
+        <input value={inputdata} onChange={(e) => { setInputData(e.target.value) }} >
+        </input>
       </span>
       <br /><br />
       <Button variant="secondary" style={{ fontSize: '12px', marginRight: '10px' }} onClick={() => { props.navigate(-1); }}>장바구니</Button>
       <Button variant="success" style={{ fontSize: '12px' }} onClick={() => {
-        if (inputdata === 0) {
-          alert('구매 수량을 입력해주세요');
+        if (inputdata == 0) {
+          alert('1개 이상부터 구매하실 수 있습니다.');
         } else if (alert1 === false) {
-          alert('수량은 숫자만 입력 가능합니다.');
+          alert('구매수량은 숫자만 입력 가능합니다.');
         } else if (alert2 === false) {
-          alert('수량은 100개 까지만 입력 가능합니다.');    
+          alert('100개 이하로 구매하실 수 있습니다.');
         } else {
           props.navigate('/pay/' + findGoods.id, { state: { quantity: inputdata } })
         }
