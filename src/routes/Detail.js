@@ -36,17 +36,14 @@ function Detail(props) {
   // useEffect(()=>{ 2. 마운트시 1회 코드 실행 }, []); 
   // useEffect(()=>{ 
   //  return ()=>{
-  //    3. 언마운트시 1회 코드 실행
+  //    3. 언마운트시 1회 코드 실행(clean up function)
   //  }
   // }, [])
   let { id } = useParams();
-  console.log("Detail Page - ID from useParams:", id);
   let findGoods = props.goods.find(function (i) {
     return i.id === Number(id)
   });
-  console.log("Detail Page - props.goods:", props.goods);
-  console.log("Detail Page - findGoods:", findGoods);
-  console.log({ inputdata });
+
   return (
     <div>
       <Header navigate={props.navigate} />
@@ -102,16 +99,23 @@ function Detail(props) {
     </div>
   )
 }
-function TabContent(props) {
-  if (props.tab === 0) {
-    return <div>상세정보</div>
-  } else if (props.tab === 1) {
-    return <div>Q&A</div>
-  } else if (props.tab === 2) {
-    return <div>구매후기</div>
-  } else if (props.tab === 3) {
-    return <div>판매자정보</div>
-  }
+function TabContent({ tab }) {
+  let [fade, setFade] = useState('');
+
+  useEffect(() => {
+    setTimeout(() => {
+      setFade('end')
+    }, 100);
+    return () => { //useEffect 실행되기전에 실행
+      setFade('');
+    }
+  }, [tab]);
+  return (<div className={'start ' + fade}>
+
+    {[<div>상세정보</div>, <div>Q&A</div>, <div>구매후기</div>, <div>판매자정보</div>][tab]}
+
+  </div>)
+
 }
 
 export default Detail

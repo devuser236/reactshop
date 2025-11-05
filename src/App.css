@@ -1,18 +1,30 @@
 .App {
   text-align: center;
 }
-.main-bg{
-    height: 600px;
-    background-size: cover;
-    background-position: center;
+
+.start {
+  transform: scale(0);
 }
-.main-bg-mobile{
-    height: 300px;
-    background-image: url(../public/images/main_bg_mobile0.jpg);
-    background-size: cover;
-    background-position: center;
+
+.end {
+  transform: scale(1);
+  transition: all 0.5s;
 }
-.hand-cursor{
+
+.main-bg {
+  height: 600px;
+  background-size: cover;
+  background-position: center;
+}
+
+.main-bg-mobile {
+  height: 300px;
+  background-image: url(../public/images/main_bg_mobile0.jpg);
+  background-size: cover;
+  background-position: center;
+}
+
+.hand-cursor {
   cursor: pointer;
 }
 
